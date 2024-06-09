@@ -11,7 +11,7 @@ It parses a gst-launch style pipeline and reads negotiates
 ## Install
 
 ```bash
-go install github.com/livekit/gstreamer-publisher
+go install github.com/livekit/gstreamer-publisher@latest
 ```
 
 ## Usage
@@ -25,12 +25,21 @@ streams into LiveKit.
 
 ## Examples
 
+The examples below assume you have the following environment variables defined:
+
+```bash
+export LIVEKIT_URL=<wss://project.livekit.cloud>
+export LIVEKIT_PUBLISH_TOKEN=<token>
+```
+
+To view the stream, you can create a second token and head over to [our example app](https://meet.livekit.io/?tab=custom) to connect as a viewer.
+
 ### Test stream as H.264
 
 This creates a video and audio from test src, encoding it to H.264 and Opus.
 
 ```bash
-./gstreamer-publisher --token <token> \
+gstreamer-publisher --token $LIVEKIT_PUBLISH_TOKEN \
     -- \
     videotestsrc is-live=true ! \
         video/x-raw,width=1280,height=720 ! \
@@ -48,7 +57,7 @@ This creates a video and audio from test src, encoding it to H.264 and Opus.
 The following converts any video file into VP9 and Opus using decodebin3
 
 ```bash
-./gstreamer-publisher --token <token> \
+gstreamer-publisher --token $LIVEKIT_PUBLISH_TOKEN \
   -- \
     filesrc location="/path/to/file" ! \
     decodebin3 name=decoder \
