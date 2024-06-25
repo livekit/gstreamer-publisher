@@ -3,8 +3,8 @@ module github.com/livekit/gstreamer-publisher
 go 1.22.3
 
 require (
-	github.com/go-gst/go-glib v1.0.1
-	github.com/go-gst/go-gst v1.0.0
+	github.com/go-gst/go-glib v1.1.0
+	github.com/go-gst/go-gst v1.1.0
 	github.com/livekit/protocol v1.19.0
 	github.com/livekit/server-sdk-go/v2 v2.2.0
 	github.com/pion/rtcp v1.2.14
