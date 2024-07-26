@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/urfave/cli/v2"
 
@@ -30,13 +31,17 @@ func main() {
 		Name:      "gstreamer-publisher",
 		Usage:     "Publish video/audio from a GStreamer pipeline to LiveKit",
 		Version:   "0.1.0",
-		UsageText: "gstreamer-publisher --url <url> --token <token> -- <gst-launch parameters>",
+		UsageText: "gstreamer-publisher --url <url> --token <token> [--delay second] -- <gst-launch parameters>",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "url",
 				Usage:   "url to LiveKit instance",
 				EnvVars: []string{"LIVEKIT_URL"},
 				Value:   "http://localhost:7880",
+			},
+			&cli.IntFlag{
+				Name:  "delay",
+				Usage: "delay in seconds before publishing",
 			},
 			&cli.StringFlag{
 				Name:     "token",
@@ -53,6 +58,9 @@ func main() {
 				Token:          c.String("token"),
 				PipelineString: strings.Join(c.Args().Slice(), " "),
 			})
+			if delay := c.Int("delay"); delay != 0 {
+				time.Sleep(time.Duration(delay) * time.Second)
+			}
 			return publisher.Start()
 		},
 	}
