@@ -9,7 +9,7 @@ require (
 	github.com/livekit/server-sdk-go/v2 v2.2.0
 	github.com/pion/rtcp v1.2.14
 	github.com/pion/webrtc/v3 v3.2.51
-	github.com/urfave/cli/v2 v2.27.3
+	github.com/urfave/cli/v2 v2.27.4
 )
 
 require (
