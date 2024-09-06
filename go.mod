@@ -8,7 +8,7 @@ require (
 	github.com/livekit/protocol v1.19.3
 	github.com/livekit/server-sdk-go/v2 v2.2.0
 	github.com/pion/rtcp v1.2.14
-	github.com/pion/webrtc/v3 v3.3.0
+	github.com/pion/webrtc/v3 v3.3.1
 	github.com/urfave/cli/v2 v2.27.4
 )
 
