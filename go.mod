@@ -5,7 +5,7 @@ go 1.22.3
 require (
 	github.com/go-gst/go-glib v1.3.0
 	github.com/go-gst/go-gst v1.3.0
-	github.com/livekit/protocol v1.19.4-0.20240808180722-581b59b65309
+	github.com/livekit/protocol v1.21.0
 	github.com/livekit/server-sdk-go/v2 v2.2.1
 	github.com/pion/rtcp v1.2.14
 	github.com/pion/webrtc/v3 v3.3.1
