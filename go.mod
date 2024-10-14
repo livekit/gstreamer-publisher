@@ -9,7 +9,7 @@ require (
 	github.com/livekit/server-sdk-go/v2 v2.2.1
 	github.com/pion/rtcp v1.2.14
 	github.com/pion/webrtc/v3 v3.3.1
-	github.com/urfave/cli/v2 v2.27.4
+	github.com/urfave/cli/v2 v2.27.5
 )
 
 require (
@@ -18,7 +18,7 @@ require (
 	github.com/bep/debounce v1.2.1 // indirect
 	github.com/bufbuild/protovalidate-go v0.6.1 // indirect
 	github.com/bufbuild/protoyaml-go v0.1.9 // indirect
-	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gammazero/deque v0.2.1 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.3 // indirect
