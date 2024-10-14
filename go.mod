@@ -8,7 +8,7 @@ require (
 	github.com/livekit/protocol v1.21.0
 	github.com/livekit/server-sdk-go/v2 v2.2.1
 	github.com/pion/rtcp v1.2.14
-	github.com/pion/webrtc/v3 v3.3.1
+	github.com/pion/webrtc/v3 v3.3.4
 	github.com/urfave/cli/v2 v2.27.5
 )
 
@@ -37,7 +37,7 @@ require (
 	github.com/mattn/go-pointer v0.0.1 // indirect
 	github.com/pion/datachannel v1.5.8 // indirect
 	github.com/pion/dtls/v2 v2.2.12 // indirect
-	github.com/pion/ice/v2 v2.3.34 // indirect
+	github.com/pion/ice/v2 v2.3.36 // indirect
 	github.com/pion/interceptor v0.1.29 // indirect
 	github.com/pion/logging v0.2.2 // indirect
 	github.com/pion/mdns v0.0.12 // indirect
