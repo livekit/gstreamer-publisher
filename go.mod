@@ -7,7 +7,7 @@ toolchain go1.23.2
 require (
 	github.com/go-gst/go-glib v1.3.0
 	github.com/go-gst/go-gst v1.3.0
-	github.com/livekit/protocol v1.23.1-0.20241003084409-2406243b2f49
+	github.com/livekit/protocol v1.26.0
 	github.com/livekit/server-sdk-go/v2 v2.3.0
 	github.com/pion/rtcp v1.2.14
 	github.com/pion/webrtc/v3 v3.3.4
