@@ -8,7 +8,7 @@ require (
 	github.com/go-gst/go-glib v1.3.0
 	github.com/go-gst/go-gst v1.3.0
 	github.com/livekit/protocol v1.29.3
-	github.com/livekit/server-sdk-go/v2 v2.3.1
+	github.com/livekit/server-sdk-go/v2 v2.4.0
 	github.com/pion/rtcp v1.2.14
 	github.com/pion/webrtc/v3 v3.3.4
 	github.com/urfave/cli/v2 v2.27.5
@@ -40,7 +40,7 @@ require (
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/lithammer/shortuuid/v4 v4.0.0 // indirect
 	github.com/livekit/mageutil v0.0.0-20230125210925-54e8a70427c1 // indirect
-	github.com/livekit/mediatransportutil v0.0.0-20240730083616-559fa5ece598 // indirect
+	github.com/livekit/mediatransportutil v0.0.0-20241128072814-c363618d4c98 // indirect
 	github.com/livekit/psrpc v0.6.1-0.20241018124827-1efff3d113a8 // indirect
 	github.com/magefile/mage v1.15.0 // indirect
 	github.com/mattn/go-pointer v0.0.1 // indirect
@@ -68,7 +68,7 @@ require (
 	github.com/pion/transport/v3 v3.0.7 // indirect
 	github.com/pion/turn/v2 v2.1.6 // indirect
 	github.com/pion/turn/v4 v4.0.0 // indirect
-	github.com/pion/webrtc/v4 v4.0.3 // indirect
+	github.com/pion/webrtc/v4 v4.0.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.4.0 // indirect
 	github.com/redis/go-redis/v9 v9.7.0 // indirect
