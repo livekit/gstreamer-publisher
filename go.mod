@@ -11,6 +11,7 @@ require (
 	github.com/livekit/server-sdk-go/v2 v2.4.1
 	github.com/pion/rtcp v1.2.15
 	github.com/pion/webrtc/v3 v3.3.5
+	github.com/pion/webrtc/v4 v4.0.7
 	github.com/urfave/cli/v2 v2.27.5
 )
 
@@ -68,7 +69,6 @@ require (
 	github.com/pion/transport/v3 v3.0.7 // indirect
 	github.com/pion/turn/v2 v2.1.6 // indirect
 	github.com/pion/turn/v4 v4.0.0 // indirect
-	github.com/pion/webrtc/v4 v4.0.7 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.4.0 // indirect
 	github.com/redis/go-redis/v9 v9.7.0 // indirect
