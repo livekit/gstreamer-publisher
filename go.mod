@@ -1,11 +1,11 @@
 module github.com/livekit/gstreamer-publisher
 
-go 1.23
+go 1.23.1
 
-toolchain go1.23.3
+toolchain go1.23.4
 
 require (
-	github.com/go-gst/go-glib v1.3.0
+	github.com/go-gst/go-glib v1.4.0
 	github.com/go-gst/go-gst v1.3.0
 	github.com/livekit/protocol v1.30.0
 	github.com/livekit/server-sdk-go/v2 v2.4.1
