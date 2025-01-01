@@ -9,7 +9,7 @@ require (
 	github.com/go-gst/go-gst v1.3.0
 	github.com/livekit/protocol v1.30.0
 	github.com/livekit/server-sdk-go/v2 v2.3.1
-	github.com/pion/rtcp v1.2.14
+	github.com/pion/rtcp v1.2.15
 	github.com/pion/webrtc/v3 v3.3.5
 	github.com/urfave/cli/v2 v2.27.5
 )
