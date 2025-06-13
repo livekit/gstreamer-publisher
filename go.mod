@@ -11,7 +11,8 @@ require (
 	github.com/livekit/server-sdk-go/v2 v2.4.2
 	github.com/pion/rtcp v1.2.15
 	github.com/pion/webrtc/v4 v4.0.8
-	github.com/urfave/cli/v2 v2.27.5
+	github.com/urfave/cli/v2 v2.27.6
+	github.com/urfave/cli/v3 v3.3.8
 )
 
 require (
