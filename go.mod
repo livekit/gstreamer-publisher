@@ -11,7 +11,6 @@ require (
 	github.com/livekit/server-sdk-go/v2 v2.4.2
 	github.com/pion/rtcp v1.2.15
 	github.com/pion/webrtc/v4 v4.0.8
-	github.com/urfave/cli/v2 v2.27.5
 )
 
 require (
@@ -22,7 +21,6 @@ require (
 	github.com/bep/debounce v1.2.1 // indirect
 	github.com/bufbuild/protovalidate-go v0.6.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
 	github.com/dennwc/iters v1.0.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/frostbyte73/core v0.1.0 // indirect
@@ -63,11 +61,10 @@ require (
 	github.com/pion/turn/v4 v4.0.0 // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.4.0 // indirect
 	github.com/redis/go-redis/v9 v9.7.0 // indirect
-	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/twitchtv/twirp v8.1.3+incompatible // indirect
+	github.com/urfave/cli/v3 v3.3.8
 	github.com/wlynxg/anet v0.0.5 // indirect
-	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect

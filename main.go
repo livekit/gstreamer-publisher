@@ -15,19 +15,20 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 
 	"github.com/livekit/protocol/logger"
 	lksdk "github.com/livekit/server-sdk-go/v2"
 )
 
 func main() {
-	app := &cli.App{
+	cmd := &cli.Command{
 		Name:      "gstreamer-publisher",
 		Usage:     "Publish video/audio from a GStreamer pipeline to LiveKit",
 		Version:   "0.1.0",
@@ -36,7 +37,7 @@ func main() {
 			&cli.StringFlag{
 				Name:    "url",
 				Usage:   "url to LiveKit instance",
-				EnvVars: []string{"LIVEKIT_URL"},
+				Sources: cli.EnvVars("LIVEKIT_URL"),
 				Value:   "http://localhost:7880",
 			},
 			&cli.IntFlag{
@@ -52,7 +53,7 @@ func main() {
 				Name: "verbose",
 			},
 		},
-		Action: func(c *cli.Context) error {
+		Action: func(_ context.Context, c *cli.Command) error {
 			publisher := NewPublisher(PublisherParams{
 				URL:            c.String("url"),
 				Token:          c.String("token"),
@@ -67,7 +68,7 @@ func main() {
 
 	logger.InitFromConfig(&logger.Config{Level: "info"}, "gstreamer-publisher")
 	lksdk.SetLogger(logger.GetLogger())
-	if err := app.Run(os.Args); err != nil {
+	if err := cmd.Run(context.Background(), os.Args); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
