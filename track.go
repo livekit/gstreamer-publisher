@@ -27,16 +27,20 @@ import (
 	"github.com/pion/webrtc/v4"
 	"github.com/pion/webrtc/v4/pkg/media"
 
+	"github.com/livekit/protocol/logger"
 	lksdk "github.com/livekit/server-sdk-go/v2"
 )
 
+const minKeyframeRequestInterval = 500 * time.Millisecond
+
 type publisherTrack struct {
-	track       *lksdk.LocalTrack
-	sink        *app.Sink
-	mimeType    string
-	publication *lksdk.LocalTrackPublication
-	isEnded     atomic.Bool
-	onEOS       func()
+	track                 *lksdk.LocalTrack
+	sink                  *app.Sink
+	mimeType              string
+	publication           *lksdk.LocalTrackPublication
+	isEnded               atomic.Bool
+	onEOS                 func()
+	lastKeyframeRequestNs atomic.Int64
 }
 
 func createPublisherTrack(mimeType string) (*publisherTrack, error) {
@@ -132,5 +136,36 @@ func (t *publisherTrack) handleSample(sink *app.Sink) gst.FlowReturn {
 }
 
 func (t *publisherTrack) onRTCP(packet rtcp.Packet) {
-	// TODO: handle PLI by instructing the encoder to send a keyframe
+	switch packet.(type) {
+	case *rtcp.PictureLossIndication, *rtcp.FullIntraRequest:
+		t.forceKeyframe()
+	}
+}
+
+func (t *publisherTrack) forceKeyframe() {
+	if t.mimeType == webrtc.MimeTypeOpus {
+		return
+	}
+
+	now := time.Now().UnixNano()
+	last := t.lastKeyframeRequestNs.Load()
+	if now-last < int64(minKeyframeRequestInterval) {
+		return
+	}
+	if !t.lastKeyframeRequestNs.CompareAndSwap(last, now) {
+		return
+	}
+
+	s := gst.NewStructure("GstForceKeyUnit")
+	if err := s.SetValue("all-headers", true); err != nil {
+		logger.Debugw("failed to set all-headers on force-keyframe event", "error", err)
+	}
+	ev := gst.NewCustomEvent(gst.EventTypeCustomUpstream, s)
+	pad := t.sink.GetStaticPad("sink")
+	if pad == nil {
+		return
+	}
+	if ok := pad.SendEvent(ev); !ok {
+		logger.Debugw("force-keyframe event was not handled by pipeline")
+	}
 }
