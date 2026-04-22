@@ -136,67 +136,40 @@ func (t *publisherTrack) handleSample(sink *app.Sink) gst.FlowReturn {
 }
 
 func (t *publisherTrack) onRTCP(packet rtcp.Packet) {
-	switch p := packet.(type) {
-	case *rtcp.PictureLossIndication:
-		logger.Infow("received PLI", "mimeType", t.mimeType, "senderSSRC", p.SenderSSRC, "mediaSSRC", p.MediaSSRC)
-		t.forceKeyframe("PLI")
-	case *rtcp.FullIntraRequest:
-		logger.Infow("received FIR", "mimeType", t.mimeType, "senderSSRC", p.SenderSSRC, "mediaSSRC", p.MediaSSRC)
-		t.forceKeyframe("FIR")
-	default:
-		logger.Debugw("received RTCP packet", "mimeType", t.mimeType, "type", fmt.Sprintf("%T", packet))
+	switch packet.(type) {
+	case *rtcp.PictureLossIndication, *rtcp.FullIntraRequest:
+		t.forceKeyframe()
 	}
 }
 
-func (t *publisherTrack) forceKeyframe(reason string) {
+func (t *publisherTrack) forceKeyframe() {
 	if t.mimeType == webrtc.MimeTypeOpus {
-		logger.Debugw("ignoring keyframe request on audio track", "reason", reason)
 		return
 	}
 
 	now := time.Now().UnixNano()
 	last := t.lastKeyframeRequestNs.Load()
 	if now-last < int64(minKeyframeRequestInterval) {
-		logger.Infow("debouncing keyframe request",
-			"reason", reason,
-			"sinceLastMs", (now-last)/int64(time.Millisecond),
-			"minIntervalMs", int64(minKeyframeRequestInterval/time.Millisecond))
 		return
 	}
 	if !t.lastKeyframeRequestNs.CompareAndSwap(last, now) {
-		logger.Debugw("another goroutine is handling keyframe request", "reason", reason)
 		return
 	}
 
 	s := gst.NewStructure("GstForceKeyUnit")
-	if err := s.SetValue("all-headers", true); err != nil {
-		logger.Warnw("failed to set all-headers on force-keyframe event", err)
-	}
+	_ = s.SetValue("all-headers", true)
 	ev := gst.NewCustomEvent(gst.EventTypeCustomUpstream, s)
 
 	pad := t.sink.GetStaticPad("sink")
 	if pad == nil {
-		logger.Warnw("appsink has no sink pad", nil, "reason", reason)
 		return
 	}
 
-	peer := pad.GetPeer()
-	peerName := "<unlinked>"
-	if peer != nil {
-		if peerParent := peer.GetParentElement(); peerParent != nil {
-			peerName = peerParent.GetName()
-		}
+	// PushEvent forwards the event to the pad's peer. For the appsink's sink
+	// pad, the peer is the src pad of the upstream element, so the upstream
+	// force-key-unit event travels upstream toward the encoder. SendEvent
+	// would be rejected by GStreamer as "wrong direction" on a sink pad.
+	if ok := pad.PushEvent(ev); !ok {
+		logger.Warnw("force-keyframe event was not handled by pipeline", nil)
 	}
-
-	// PushEvent forwards the event to the pad's peer. For the appsink's sink pad,
-	// the peer is the src pad of the upstream element, so the upstream
-	// force-key-unit event travels upstream toward the encoder. Using
-	// gst_pad_send_event (our previous approach) is rejected by GStreamer as
-	// "wrong direction" for a sink pad + upstream event.
-	ok := pad.PushEvent(ev)
-	logger.Infow("pushed force-keyframe event upstream",
-		"reason", reason,
-		"mimeType", t.mimeType,
-		"peer", peerName,
-		"handled", ok)
 }
