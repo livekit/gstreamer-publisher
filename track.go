@@ -36,7 +36,7 @@ type publisherTrack struct {
 	mimeType    string
 	publication *lksdk.LocalTrackPublication
 	isEnded     atomic.Bool
-	onEOS       func()
+	onEOS       atomic.Pointer[func()]
 }
 
 func createPublisherTrack(mimeType string) (*publisherTrack, error) {
@@ -90,8 +90,8 @@ func (t *publisherTrack) IsEnded() bool {
 // callback function when EOS is received
 func (t *publisherTrack) handleEOS(_ *app.Sink) {
 	t.isEnded.Store(true)
-	if t.onEOS != nil {
-		t.onEOS()
+	if cb := t.onEOS.Load(); cb != nil {
+		(*cb)()
 	}
 }
 
