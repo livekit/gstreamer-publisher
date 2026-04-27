@@ -1,4 +1,4 @@
-module github.com/livekit/gstreamer-publisher
+module github.com/MainSquare/gstreamer-publisher
 
 go 1.24.4
 
