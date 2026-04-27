@@ -23,6 +23,7 @@ import (
 
 	"github.com/go-gst/go-glib/glib"
 	"github.com/go-gst/go-gst/gst"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/livekit/protocol/livekit"
 	"github.com/livekit/protocol/logger"
@@ -74,47 +75,56 @@ func (p *Publisher) Start() error {
 		return err
 	}
 
-	// TODO: connect at the same time in parallel as spinning up pipeline
-	cb := lksdk.NewRoomCallback()
-	cb.OnDisconnected = func() {
-		// TODO: stop publishing and exit
-	}
-	p.room = lksdk.NewRoom(cb)
-	err := p.room.JoinWithToken(p.params.URL, p.params.Token,
-		lksdk.WithAutoSubscribe(false),
-	)
-	if err != nil {
-		return err
-	}
+	var g errgroup.Group
 
-	// publish tracks if sinks are set up
-	if p.videoTrack != nil {
-		pub, err := p.room.LocalParticipant.PublishTrack(p.videoTrack.track, &lksdk.TrackPublicationOptions{
-			Source: livekit.TrackSource_CAMERA,
-		})
-		if err != nil {
+	g.Go(func() error {
+		cb := lksdk.NewRoomCallback()
+		cb.OnDisconnected = func() {
+			// TODO: stop publishing and exit
+		}
+		p.room = lksdk.NewRoom(cb)
+		if err := p.room.JoinWithToken(p.params.URL, p.params.Token,
+			lksdk.WithAutoSubscribe(false),
+		); err != nil {
 			return err
 		}
-		p.videoTrack.publication = pub
-		p.videoTrack.onEOS = func() {
-			_ = p.room.LocalParticipant.UnpublishTrack(pub.SID())
-		}
-	}
 
-	if p.audioTrack != nil {
-		pub, err := p.room.LocalParticipant.PublishTrack(p.audioTrack.track, &lksdk.TrackPublicationOptions{
-			Source: livekit.TrackSource_MICROPHONE,
-		})
-		if err != nil {
-			return err
+		if p.videoTrack != nil {
+			pub, err := p.room.LocalParticipant.PublishTrack(p.videoTrack.track, &lksdk.TrackPublicationOptions{
+				Source: livekit.TrackSource_CAMERA,
+			})
+			if err != nil {
+				return err
+			}
+			p.videoTrack.publication = pub
+			onEOS := func() {
+				_ = p.room.LocalParticipant.UnpublishTrack(pub.SID())
+			}
+			p.videoTrack.onEOS.Store(&onEOS)
 		}
-		p.audioTrack.publication = pub
-		p.audioTrack.onEOS = func() {
-			_ = p.room.LocalParticipant.UnpublishTrack(pub.SID())
-		}
-	}
 
-	if err := p.pipeline.Start(); err != nil {
+		if p.audioTrack != nil {
+			pub, err := p.room.LocalParticipant.PublishTrack(p.audioTrack.track, &lksdk.TrackPublicationOptions{
+				Source: livekit.TrackSource_MICROPHONE,
+			})
+			if err != nil {
+				return err
+			}
+			p.audioTrack.publication = pub
+			onEOS := func() {
+				_ = p.room.LocalParticipant.UnpublishTrack(pub.SID())
+			}
+			p.audioTrack.onEOS.Store(&onEOS)
+		}
+		return nil
+	})
+
+	g.Go(func() error {
+		return p.pipeline.Start()
+	})
+
+	if err := g.Wait(); err != nil {
+		p.Stop()
 		return err
 	}
 
