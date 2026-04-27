@@ -27,16 +27,20 @@ import (
 	"github.com/pion/webrtc/v4"
 	"github.com/pion/webrtc/v4/pkg/media"
 
+	"github.com/livekit/protocol/logger"
 	lksdk "github.com/livekit/server-sdk-go/v2"
 )
 
+const minKeyframeRequestInterval = 500 * time.Millisecond
+
 type publisherTrack struct {
-	track       *lksdk.LocalTrack
-	sink        *app.Sink
-	mimeType    string
-	publication *lksdk.LocalTrackPublication
-	isEnded     atomic.Bool
-	onEOS       func()
+	track                 *lksdk.LocalTrack
+	sink                  *app.Sink
+	mimeType              string
+	publication           *lksdk.LocalTrackPublication
+	isEnded               atomic.Bool
+	onEOS                 func()
+	lastKeyframeRequestNs atomic.Int64
 }
 
 func createPublisherTrack(mimeType string) (*publisherTrack, error) {
@@ -132,5 +136,40 @@ func (t *publisherTrack) handleSample(sink *app.Sink) gst.FlowReturn {
 }
 
 func (t *publisherTrack) onRTCP(packet rtcp.Packet) {
-	// TODO: handle PLI by instructing the encoder to send a keyframe
+	switch packet.(type) {
+	case *rtcp.PictureLossIndication, *rtcp.FullIntraRequest:
+		t.forceKeyframe()
+	}
+}
+
+func (t *publisherTrack) forceKeyframe() {
+	if t.mimeType == webrtc.MimeTypeOpus {
+		return
+	}
+
+	now := time.Now().UnixNano()
+	last := t.lastKeyframeRequestNs.Load()
+	if now-last < int64(minKeyframeRequestInterval) {
+		return
+	}
+	if !t.lastKeyframeRequestNs.CompareAndSwap(last, now) {
+		return
+	}
+
+	s := gst.NewStructure("GstForceKeyUnit")
+	_ = s.SetValue("all-headers", true)
+	ev := gst.NewCustomEvent(gst.EventTypeCustomUpstream, s)
+
+	pad := t.sink.GetStaticPad("sink")
+	if pad == nil {
+		return
+	}
+
+	// PushEvent forwards the event to the pad's peer. For the appsink's sink
+	// pad, the peer is the src pad of the upstream element, so the upstream
+	// force-key-unit event travels upstream toward the encoder. SendEvent
+	// would be rejected by GStreamer as "wrong direction" on a sink pad.
+	if ok := pad.PushEvent(ev); !ok {
+		logger.Warnw("force-keyframe event was not handled by pipeline", nil)
+	}
 }
