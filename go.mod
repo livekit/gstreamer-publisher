@@ -5,7 +5,7 @@ go 1.26
 require (
 	github.com/go-gst/go-glib v1.4.0
 	github.com/go-gst/go-gst v1.4.0
-	github.com/livekit/protocol v1.46.6-0.20260604183504-b6c88bd4c277
+	github.com/livekit/protocol v1.46.6-0.20260604204719-ab1b54f925cf
 	github.com/livekit/server-sdk-go/v2 v2.12.6
 	github.com/pion/rtcp v1.2.16
 	github.com/pion/webrtc/v4 v4.2.14
