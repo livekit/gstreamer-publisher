@@ -5,7 +5,7 @@ go 1.26
 require (
 	github.com/go-gst/go-glib v1.4.0
 	github.com/go-gst/go-gst v1.4.0
-	github.com/livekit/protocol v1.46.6-0.20260604204719-ab1b54f925cf
+	github.com/livekit/protocol v1.46.6-0.20260604233857-6b0178b3af2a
 	github.com/livekit/server-sdk-go/v2 v2.12.6
 	github.com/pion/rtcp v1.2.16
 	github.com/pion/webrtc/v4 v4.2.14
@@ -15,7 +15,6 @@ require (
 	buf.build/go/protovalidate v1.2.0 // indirect
 	cel.dev/expr v0.25.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
-	github.com/moby/sys/user v0.4.0 // indirect
 	github.com/pion/transport/v4 v4.0.2 // indirect
 	github.com/pion/turn/v5 v5.0.8 // indirect
 	github.com/puzpuzpuz/xsync/v4 v4.5.0 // indirect
@@ -48,7 +47,7 @@ require (
 	github.com/lithammer/shortuuid/v4 v4.2.0 // indirect
 	github.com/livekit/mageutil v0.0.0-20250511045019-0f1ff63f7731 // indirect
 	github.com/livekit/mediatransportutil v0.0.0-20250825135402-7bc31f107ade // indirect
-	github.com/livekit/psrpc v0.7.1 // indirect
+	github.com/livekit/psrpc v0.7.2-0.20260604225640-4bab4033deca // indirect
 	github.com/magefile/mage v1.15.0 // indirect
 	github.com/mattn/go-pointer v0.0.1 // indirect
 	github.com/nats-io/nats.go v1.52.0 // indirect
