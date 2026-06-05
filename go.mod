@@ -5,10 +5,10 @@ go 1.26
 require (
 	github.com/go-gst/go-glib v1.4.0
 	github.com/go-gst/go-gst v1.4.0
-	github.com/livekit/protocol v1.46.6-0.20260605012906-a7a83da5bb55
-	github.com/livekit/server-sdk-go/v2 v2.16.7-0.20260605014526-f4a94c0305da
+	github.com/livekit/protocol v1.46.6-0.20260605181725-7f0893ab5bf2
+	github.com/livekit/server-sdk-go/v2 v2.16.7-0.20260605183249-c47ddccc5112
 	github.com/pion/rtcp v1.2.16
-	github.com/pion/webrtc/v4 v4.2.14
+	github.com/pion/webrtc/v4 v4.2.11
 )
 
 require (
@@ -44,7 +44,7 @@ require (
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/lithammer/shortuuid/v4 v4.2.0 // indirect
 	github.com/livekit/mageutil v0.0.0-20250511045019-0f1ff63f7731 // indirect
-	github.com/livekit/mediatransportutil v0.0.0-20260605004258-044aafb7253d // indirect
+	github.com/livekit/mediatransportutil v0.0.0-20260605182015-e79eb8d79819 // indirect
 	github.com/livekit/psrpc v0.7.2-0.20260604225640-4bab4033deca // indirect
 	github.com/magefile/mage v1.17.2 // indirect
 	github.com/mattn/go-pointer v0.0.1 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/pion/mdns/v2 v2.1.0 // indirect
 	github.com/pion/randutil v0.1.0 // indirect
 	github.com/pion/rtp v1.10.2 // indirect
-	github.com/pion/sctp v1.10.0 // indirect
+	github.com/pion/sctp v1.9.5 // indirect
 	github.com/pion/sdp/v3 v3.0.18 // indirect
 	github.com/pion/srtp/v3 v3.0.11 // indirect
 	github.com/pion/stun/v3 v3.1.4 // indirect
