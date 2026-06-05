@@ -5,8 +5,8 @@ go 1.26
 require (
 	github.com/go-gst/go-glib v1.4.0
 	github.com/go-gst/go-gst v1.4.0
-	github.com/livekit/protocol v1.46.6-0.20260605181725-7f0893ab5bf2
-	github.com/livekit/server-sdk-go/v2 v2.16.7-0.20260605183249-c47ddccc5112
+	github.com/livekit/protocol v1.46.7-0.20260605212020-c0615a2f6f84
+	github.com/livekit/server-sdk-go/v2 v2.16.7-0.20260605213610-c2a481bfe315
 	github.com/pion/rtcp v1.2.16
 	github.com/pion/webrtc/v4 v4.2.11
 )
@@ -14,9 +14,15 @@ require (
 require (
 	buf.build/go/protovalidate v1.2.0 // indirect
 	cel.dev/expr v0.25.2 // indirect
+	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
+	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pion/transport/v4 v4.0.2 // indirect
 	github.com/pion/turn/v5 v5.0.8 // indirect
+	github.com/prometheus/client_golang v1.23.2 // indirect
+	github.com/prometheus/client_model v0.6.2 // indirect
+	github.com/prometheus/common v0.68.1 // indirect
+	github.com/prometheus/procfs v0.20.1 // indirect
 	github.com/puzpuzpuz/xsync/v4 v4.5.0 // indirect
 	go.opentelemetry.io/otel v1.44.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
@@ -44,8 +50,8 @@ require (
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/lithammer/shortuuid/v4 v4.2.0 // indirect
 	github.com/livekit/mageutil v0.0.0-20250511045019-0f1ff63f7731 // indirect
-	github.com/livekit/mediatransportutil v0.0.0-20260605182015-e79eb8d79819 // indirect
-	github.com/livekit/psrpc v0.7.2-0.20260604225640-4bab4033deca // indirect
+	github.com/livekit/mediatransportutil v0.0.0-20260605212259-862d4a7bcb1e // indirect
+	github.com/livekit/psrpc v0.7.2 // indirect
 	github.com/magefile/mage v1.17.2 // indirect
 	github.com/mattn/go-pointer v0.0.1 // indirect
 	github.com/nats-io/nats.go v1.52.0 // indirect
