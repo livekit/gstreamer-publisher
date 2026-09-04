@@ -3,12 +3,12 @@ module github.com/livekit/gstreamer-publisher
 go 1.26
 
 require (
-	github.com/go-gst/go-glib v1.4.0
-	github.com/go-gst/go-gst v1.4.0
-	github.com/livekit/protocol v1.46.7-0.20260605212020-c0615a2f6f84
-	github.com/livekit/server-sdk-go/v2 v2.16.7-0.20260605213610-c2a481bfe315
-	github.com/pion/rtcp v1.2.16
-	github.com/pion/webrtc/v4 v4.2.11
+	github.com/go-gst/go-glib v1.4.1
+	github.com/go-gst/go-gst v1.4.1
+	github.com/livekit/protocol v1.51.0
+	github.com/livekit/server-sdk-go/v2 v2.18.1
+	github.com/pion/rtcp v1.2.17
+	github.com/pion/webrtc/v4 v4.2.20
 )
 
 require (
@@ -71,7 +71,7 @@ require (
 	github.com/pion/stun/v3 v3.1.4 // indirect
 	github.com/redis/go-redis/v9 v9.20.0 // indirect
 	github.com/twitchtv/twirp v8.1.3+incompatible // indirect
-	github.com/urfave/cli/v3 v3.9.0
+	github.com/urfave/cli/v3 v3.11.0
 	github.com/wlynxg/anet v0.0.5 // indirect
 	github.com/zeebo/xxh3 v1.1.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
