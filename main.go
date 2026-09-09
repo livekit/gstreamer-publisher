@@ -27,6 +27,19 @@ import (
 	lksdk "github.com/livekit/server-sdk-go/v2"
 )
 
+func parseAllowedUsers(flagValue string) []string {
+	if flagValue == "" {
+		return nil
+	}
+	var users []string
+	for _, u := range strings.Split(flagValue, ",") {
+		if u = strings.TrimSpace(u); u != "" {
+			users = append(users, u)
+		}
+	}
+	return users
+}
+
 func main() {
 	cmd := &cli.Command{
 		Name:      "gstreamer-publisher",
@@ -49,6 +62,11 @@ func main() {
 				Usage:    "access token for authentication. canPublish permission is required",
 				Required: true,
 			},
+			&cli.StringFlag{
+				Name:    "allowed-users",
+				Usage:   "comma-separated LiveKit participant identities allowed to subscribe to published tracks",
+				Sources: cli.EnvVars("LIVEKIT_ALLOWED_USERS"),
+			},
 			&cli.BoolFlag{
 				Name: "verbose",
 			},
@@ -58,6 +76,7 @@ func main() {
 				URL:            c.String("url"),
 				Token:          c.String("token"),
 				PipelineString: strings.Join(c.Args().Slice(), " "),
+				AllowedUsers:   parseAllowedUsers(c.String("allowed-users")),
 			})
 			if delay := c.Int("delay"); delay != 0 {
 				time.Sleep(time.Duration(delay) * time.Second)

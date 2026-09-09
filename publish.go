@@ -45,6 +45,7 @@ type PublisherParams struct {
 	URL            string
 	Token          string
 	PipelineString string
+	AllowedUsers   []string
 }
 
 type Publisher struct {
@@ -85,6 +86,21 @@ func (p *Publisher) Start() error {
 	)
 	if err != nil {
 		return err
+	}
+
+	if len(p.params.AllowedUsers) > 0 {
+		trackPerms := make([]*livekit.TrackPermission, len(p.params.AllowedUsers))
+		for i, identity := range p.params.AllowedUsers {
+			trackPerms[i] = &livekit.TrackPermission{
+				ParticipantIdentity: identity,
+				AllTracks:           true,
+			}
+		}
+		p.room.LocalParticipant.SetSubscriptionPermission(&livekit.SubscriptionPermission{
+			AllParticipants:  false,
+			TrackPermissions: trackPerms,
+		})
+		logger.Infow("subscription permission applied", "allowedIdentities", len(p.params.AllowedUsers))
 	}
 
 	// publish tracks if sinks are set up
