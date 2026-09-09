@@ -1,2 +1,5 @@
 gstreamer-publisher
 .idea/
+
+# ICM specialist hub (workspace convention: gitignored)
+icm/
