@@ -63,9 +63,8 @@ func main() {
 				Required: true,
 			},
 			&cli.StringFlag{
-				Name:    "allowed-users",
-				Usage:   "comma-separated LiveKit participant identities allowed to subscribe to published tracks",
-				Sources: cli.EnvVars("LIVEKIT_ALLOWED_USERS"),
+				Name:  "allowed-users",
+				Usage: "comma-separated LiveKit participant identities allowed to subscribe to published tracks",
 			},
 			&cli.BoolFlag{
 				Name: "verbose",
