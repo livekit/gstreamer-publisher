@@ -61,6 +61,7 @@ func main() {
 				Name:     "token",
 				Usage:    "access token for authentication. canPublish permission is required",
 				Required: true,
+				Sources:  cli.EnvVars("LIVEKIT_TOKEN"),
 			},
 			&cli.StringFlag{
 				Name:  "allowed-users",
