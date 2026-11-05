@@ -28,7 +28,14 @@ import (
 )
 
 func main() {
-	cmd := &cli.Command{
+	if err := newCommand().Run(context.Background(), os.Args); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func newCommand() *cli.Command {
+	return &cli.Command{
 		Name:      "gstreamer-publisher",
 		Usage:     "Publish video/audio from a GStreamer pipeline to LiveKit",
 		Version:   "0.1.0",
@@ -50,8 +57,13 @@ func main() {
 				Required: true,
 			},
 			&cli.BoolFlag{
-				Name: "verbose",
+				Name:  "verbose",
+				Usage: "enable debug logging",
 			},
+		},
+		Before: func(ctx context.Context, c *cli.Command) (context.Context, error) {
+			initLogger(c.Bool("verbose"))
+			return ctx, nil
 		},
 		Action: func(_ context.Context, c *cli.Command) error {
 			publisher := NewPublisher(PublisherParams{
@@ -65,11 +77,13 @@ func main() {
 			return publisher.Start()
 		},
 	}
+}
 
-	logger.InitFromConfig(&logger.Config{Level: "info"}, "gstreamer-publisher")
-	lksdk.SetLogger(logger.GetLogger())
-	if err := cmd.Run(context.Background(), os.Args); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+func initLogger(verbose bool) {
+	level := "info"
+	if verbose {
+		level = "debug"
 	}
+	logger.InitFromConfig(&logger.Config{Level: level}, "gstreamer-publisher")
+	lksdk.SetLogger(logger.GetLogger())
 }
